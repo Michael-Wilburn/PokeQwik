@@ -1,8 +1,15 @@
-import { component$, useSignal } from "@builder.io/qwik";
+import { component$, useSignal, $ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 
 export default component$(() => {
   const pokemonID = useSignal(1);
+
+  const changePokemonId = $((value: number) => {
+    if (pokemonID.value + value <= 0) { return }
+
+    pokemonID.value += value
+
+  })
 
 
   return (
@@ -14,12 +21,10 @@ export default component$(() => {
         alt="Pokemon Sprite"
         width={200}
         height={200}
-
-
       />
       <div class="mt-2">
-        <button onClick$={() => pokemonID.value--} class="btn btn-primary mr-2">Anterior</button>
-        <button onClick$={() => pokemonID.value++} class="btn btn-primary">Siguiente</button>
+        <button onClick$={() => changePokemonId(-1)} class="btn btn-primary mr-2">Anterior</button>
+        <button onClick$={() => changePokemonId(+1)} class="btn btn-primary">Siguiente</button>
       </div>
     </>
   );
