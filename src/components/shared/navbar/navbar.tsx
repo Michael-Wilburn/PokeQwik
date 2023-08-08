@@ -1,7 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import { Image } from '@unpic/qwik';
 import './navbar.module.css'
-import Logo from '../../../../favicon.svg'
+import Logo from '../../../../public/favicon.svg'
 
 export const Navbar = component$(() => {
 
