@@ -30,7 +30,7 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
+  title: "Pokemon App",
   meta: [
     {
       name: "description",
