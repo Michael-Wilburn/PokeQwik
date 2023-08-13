@@ -1,19 +1,25 @@
 import { component$ } from '@builder.io/qwik';
-import { useLocation } from '@builder.io/qwik-city';
+import { routeLoader$ } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
+
+export const usePokemonId = routeLoader$<number>(({ params, redirect }) => {
+
+    const id = Number(params.id);
+    if (isNaN(id) || id <= 0 || id > 1010) throw redirect(301, '/')
+    return id
+})
 
 export default component$(() => {
 
-    const location = useLocation();
-
+    const pokemonID = usePokemonId();
 
     return (
         <>
             <span class="text-5xl">
-                Pokemon: {location.params.id}
+                Pokemon: {pokemonID.value}
             </span>
             <PokemonImage
-                pokemonID={location.params.id}
+                pokemonID={pokemonID.value}
             />
         </>
     )
