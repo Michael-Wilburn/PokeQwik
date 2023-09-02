@@ -1,8 +1,41 @@
-import { component$ } from '@builder.io/qwik';
+import { component$, useStore } from '@builder.io/qwik';
 import type { DocumentHead } from "@builder.io/qwik-city";
+import type { SmallPokemon } from '~/interfaces';
+
+interface PokemonPageState {
+    currentPage: number;
+    pokemons: SmallPokemon[];
+}
 
 export default component$(() => {
-    return <>Hola mundo List Client</>
+
+    const pokemonState = useStore<PokemonPageState>({
+        currentPage: 0,
+        pokemons: [],
+    })
+
+
+    return (
+        <>
+            <div class="flex flex-col">
+                <span class="my-5 text-5xl">Status</span>
+                <span>Página actual: {pokemonState.currentPage} </span>
+                <span>Está cargando: </span>
+            </div>
+            <div class="mt-10">
+                <button class="btn btn-primary mr-2" onClick$={() => { pokemonState.currentPage-- }}>Anteriores</button>
+                <button class="btn btn-primary mr-2" onClick$={() => { pokemonState.currentPage++ }}>Siguientes</button>
+            </div>
+            <div class="grid grid-cols-6 mt-5">
+                {/* {pokemons.value.map(({ name, id }) => (
+                    <div key={name} class="m-5 flex flex-col justify-center items-center">
+                        <PokemonImage pokemonID={id} />
+                        <span class="capitalize">{name}</span>
+                    </div>
+                ))} */}
+            </div>
+        </>
+    )
 });
 
 export const head: DocumentHead = {
