@@ -6,6 +6,7 @@ import Logo from '../../../assets/logo/favicon.svg'
 
 export const Navbar = component$(() => {
 
+
     return (
         <nav class="flex flex-row justify-between items-center px-6">
             <Link href="/">
@@ -18,10 +19,10 @@ export const Navbar = component$(() => {
                 />
             </Link>
             <ul class="flex">
-                <li class="mr-3">
+                <li class="mr-3 cursor-pointer hover:underline">
                     <Link href="/pokemons/list-ssr/">SSR-List</Link>
                 </li>
-                <li>
+                <li class="mr-3 cursor-pointer hover:underline">
                     <Link href="/pokemons/list-client/">Client-Side</Link>
                 </li>
             </ul>

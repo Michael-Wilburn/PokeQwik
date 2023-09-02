@@ -1,17 +1,16 @@
 import { component$, useComputed$, $ } from '@builder.io/qwik';
 import { type DocumentHead, routeLoader$, useLocation, useNavigate } from "@builder.io/qwik-city";
-import axios from 'axios';
-import type { BasicPokemonInfo, PokemonListResponse } from '~/interfaces';
+import { PokemonImage } from '~/components/pokemons/pokemon-image';
+import { getSmallPokemons } from '~/helpers/get-small-pokemons';
+import type { SmallPokemon } from '~/interfaces';
 
 
-export const usepokemonList = routeLoader$<BasicPokemonInfo[]>(async ({ pathname, query, redirect }) => {
+export const usepokemonList = routeLoader$<SmallPokemon[]>(async ({ pathname, query, redirect }) => {
     const offset = Number(query.get('offset') || 0);
     if (isNaN(offset) || offset < 0) throw redirect(301, pathname)
 
-
-    const res = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=10&offset=${offset}`);
-    const data = res.data as PokemonListResponse
-    return data.results
+    const pokemons = await getSmallPokemons(offset)
+    return pokemons
 })
 
 export default component$(() => {
@@ -43,9 +42,10 @@ export default component$(() => {
                 <button class="btn btn-primary mr-2" onClick$={() => { onClickNav(10) }}>Siguientes</button>
             </div>
             <div class="grid grid-cols-6 mt-5">
-                {pokemons.value.map(pokemon => (
-                    <div key={pokemon.name} class="m-5 flex flex-col justify-center items-center">
-                        <span class="capitalize">{pokemon.name}</span>
+                {pokemons.value.map(({ name, id }) => (
+                    <div key={name} class="m-5 flex flex-col justify-center items-center">
+                        <PokemonImage pokemonID={id} />
+                        <span class="capitalize">{name}</span>
                     </div>
                 ))}
             </div>
