@@ -1,4 +1,4 @@
-import { component$, useStore, useTask$ } from '@builder.io/qwik';
+import { component$, useOnDocument, useStore, useTask$, $ } from '@builder.io/qwik';
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { getSmallPokemons } from '~/helpers/get-small-pokemons';
 import type { SmallPokemon } from '~/interfaces';
@@ -23,9 +23,19 @@ export default component$(() => {
     // })
     useTask$(async ({ track }) => {
         track(() => pokemonState.currentPage);
-        const pokemons = await getSmallPokemons(pokemonState.currentPage * 10);
+        const pokemons = await getSmallPokemons(pokemonState.currentPage * 10, 40);
         pokemonState.pokemons = [...pokemonState.pokemons, ...pokemons]
     })
+
+    useOnDocument('scroll', $(() => {
+        const maxScroll = document.body.scrollHeight;
+        const currentScroll = window.scrollY + window.innerHeight;
+
+        if ((currentScroll + 200) >= maxScroll) {
+            pokemonState.currentPage++
+        }
+
+    }))
 
 
     return (
@@ -39,7 +49,7 @@ export default component$(() => {
                 {/* <button class="btn btn-primary mr-2" onClick$={() => { pokemonState.currentPage-- }}>Anteriores</button> */}
                 <button class="btn btn-primary mr-2" onClick$={() => { pokemonState.currentPage++ }}>Siguientes</button>
             </div>
-            <div class="grid grid-cols-6 mt-5">
+            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xmt-5">
                 {pokemonState.pokemons.map(({ name, id }) => (
                     <div key={name} class="m-5 flex flex-col justify-center items-center">
                         <PokemonImage pokemonID={id} />
