@@ -1,4 +1,4 @@
-import { component$, useStore, useVisibleTask$ } from '@builder.io/qwik';
+import { component$, useStore, useTask$ } from '@builder.io/qwik';
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { getSmallPokemons } from '~/helpers/get-small-pokemons';
 import type { SmallPokemon } from '~/interfaces';
@@ -16,7 +16,12 @@ export default component$(() => {
         pokemons: [],
     })
 
-    useVisibleTask$(async ({ track }) => {
+    // useVisibleTask$(async ({ track }) => {
+    //     track(() => pokemonState.currentPage);
+    //     const pokemons = await getSmallPokemons(pokemonState.currentPage * 10);
+    //     pokemonState.pokemons = [...pokemonState.pokemons, ...pokemons]
+    // })
+    useTask$(async ({ track }) => {
         track(() => pokemonState.currentPage);
         const pokemons = await getSmallPokemons(pokemonState.currentPage * 10);
         pokemonState.pokemons = [...pokemonState.pokemons, ...pokemons]
