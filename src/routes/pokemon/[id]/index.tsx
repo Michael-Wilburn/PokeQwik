@@ -20,6 +20,7 @@ export default component$(() => {
             </span>
             <PokemonImage
                 pokemonID={pokemonID.value}
+                size={150}
             />
         </>
     )

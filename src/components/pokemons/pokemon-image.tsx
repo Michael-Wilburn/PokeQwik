@@ -33,7 +33,7 @@ export const PokemonImage = component$(({ pokemonID, size = 96, isBack = false, 
                 class={[{
                     "hidden": !imageLoaded.value,
                     "brightness-0": isVisible
-                }, 'transition-all']}
+                }, 'transition-all', "cursor-pointer"]}
             />
         </div>
     )

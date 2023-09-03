@@ -41,9 +41,9 @@ export default component$(() => {
                 <button class="btn btn-primary mr-2" onClick$={() => { onClickNav(-10) }}>Anteriores</button>
                 <button class="btn btn-primary mr-2" onClick$={() => { onClickNav(10) }}>Siguientes</button>
             </div>
-            <div class="grid grid-cols-6 mt-5">
+            <div class="flex flex-wrap justify-center items-center mt-5">
                 {pokemons.value.map(({ name, id }) => (
-                    <div key={name} class="m-5 flex flex-col justify-center items-center">
+                    <div key={name} class="m-5 flex flex-wrap flex-col justify-center items-center">
                         <PokemonImage pokemonID={id} />
                         <span class="capitalize">{name}</span>
                     </div>
