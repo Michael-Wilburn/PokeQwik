@@ -1,8 +1,9 @@
-import { component$, Slot, useContextProvider, useStore } from "@builder.io/qwik";
+import { component$, Slot } from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
 import { Navbar } from "~/components/shared/navbar/navbar";
-import { PokemonGameContext, type PokemonGameState } from "~/context";
-import { PokemonListContext, type PokemonListState } from "~/context/pokemon/pokemon-list.context";
+import { PokemonProvider } from "~/context/pokemon/pokemon-provider";
+// import { PokemonGameContext, type PokemonGameState } from "~/context";
+// import { PokemonListContext, type PokemonListState } from "~/context/pokemon/pokemon-list.context";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -17,26 +18,26 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
 
 export default component$(() => {
 
-  const pokemonGame = useStore<PokemonGameState>({
-    pokemonID: 4,
-    isPokemonVisible: false,
-    showBackImage: false
-  });
-  useContextProvider(PokemonGameContext, pokemonGame);
+  // const pokemonGame = useStore<PokemonGameState>({
+  //   pokemonID: 4,
+  //   isPokemonVisible: false,
+  //   showBackImage: false
+  // });
+  // useContextProvider(PokemonGameContext, pokemonGame);
 
-  const pokemonList = useStore<PokemonListState>({
-    currentPage: 1,
-    isLoading: false,
-    pokemons: [],
-  })
-  useContextProvider(PokemonListContext, pokemonList)
+  // const pokemonList = useStore<PokemonListState>({
+  //   currentPage: 1,
+  //   isLoading: false,
+  //   pokemons: [],
+  // })
+  // useContextProvider(PokemonListContext, pokemonList)
 
   return (
-    <>
+    <PokemonProvider>
       <Navbar />
       <main class="flex flex-col items-center justify-center">
         <Slot />
       </main>
-    </>
+    </PokemonProvider>
   )
 });
