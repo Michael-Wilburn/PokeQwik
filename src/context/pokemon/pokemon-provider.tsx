@@ -20,6 +20,17 @@ export const PokemonProvider = component$(() => {
 
     useVisibleTask$(() => {
         // TODO: leerr del local storage
+        if (localStorage.getItem('pokemon-game')) {
+            const {
+                isPokemonVisible = true,
+                pokemonID = 10,
+                showBackImage = false } = JSON.parse(localStorage.getItem('pokemon-game')!) as PokemonGameState
+
+            pokemonGame.isPokemonVisible = isPokemonVisible,
+                pokemonGame.pokemonID = pokemonID,
+                pokemonGame.showBackImage = showBackImage
+
+        }
 
 
     })
