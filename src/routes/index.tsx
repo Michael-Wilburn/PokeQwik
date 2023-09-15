@@ -13,11 +13,11 @@ export default component$(() => {
 
   const nav = useNavigate();
 
-  const changePokemonId = $((value: number) => {
-    if (pokemonGame.pokemonID + value <= 0) { return }
-    pokemonGame.pokemonID += value
+  // const changePokemonId = $((value: number) => {
+  //   if (pokemonGame.pokemonID + value <= 0) { return }
+  //   pokemonGame.pokemonID += value
 
-  })
+  // })
 
   const goToPokemon = $(() => {
     nav(`/pokemon/${pokemonGame.pokemonID}/`)
