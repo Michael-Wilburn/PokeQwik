@@ -1,4 +1,4 @@
-import { component$, useComputed$, $ } from '@builder.io/qwik';
+import { component$, useComputed$, $, useSignal } from '@builder.io/qwik';
 import { type DocumentHead, routeLoader$, useLocation, useNavigate } from "@builder.io/qwik-city";
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
 import { Modal } from '~/components/shared';
@@ -19,10 +19,23 @@ export default component$(() => {
     const location = useLocation()
     const nav = useNavigate()
 
+    const modalVisible = useSignal(false);
+
     const currentOffset = useComputed$<number>(() => {
         // const offsetString = location.url.searchParams.get('offset');
         const offsetString = new URLSearchParams(location.url.search)
         return Number(offsetString.get('offset') || '0');
+    })
+
+    //Modal Functions
+    const showModal = $((id: string, name: string) => {
+        console.log({ id, name });
+        modalVisible.value = true;
+
+    })
+
+    const closeModal = $(() => {
+        modalVisible.value = false;
     })
 
 
@@ -44,13 +57,15 @@ export default component$(() => {
             </div>
             <div class="flex flex-wrap justify-center items-center mt-5">
                 {pokemons.value.map(({ name, id }) => (
-                    <div key={name} class="m-5 flex flex-wrap flex-col justify-center items-center">
+                    <div key={name}
+                        onClick$={() => showModal(id, name)}
+                        class="m-5 flex flex-wrap flex-col justify-center items-center">
                         <PokemonImage pokemonID={id} />
                         <span class="capitalize">{name}</span>
                     </div>
                 ))}
             </div>
-            <Modal>
+            <Modal showModal={modalVisible.value} closeFn={closeModal}>
                 <div q:slot='title'>Nombre del Pokemon</div>
                 <div class="flex flex-col justify-center items-center" q:slot='content'>
                     <PokemonImage q:slot='content' pokemonID={1} />
